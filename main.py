@@ -16,6 +16,7 @@ screen = Tk()
 screen.title("Movie List: Massive Swag!")
 screen.geometry("1000x1200")
 
+# Create our table and stylings
 table = ttk.Treeview(screen, columns=('index', 'movies', 'filename'), show='headings')
 style = ttk.Style()
 upDownBar = ttk.Scrollbar(screen, orient="vertical", command=table.yview)
@@ -29,9 +30,11 @@ table.heading('filename', text="Video Link: ")
 table.column("index", width=20)
 table.column('movies', width=200)
 style.map('Treeview', background=[('selected', 'green')])
-upDownBar.pack(side="right", fill="y")
 table.tag_configure("odd", background='#F2BC69')
 table.tag_configure("even", background='white')
+
+# Creating the scrollbar, and putting it in the application
+upDownBar.pack(side="right", fill="y")
 
 
 def character_removal(text):
@@ -42,7 +45,6 @@ def character_removal(text):
 
 
 # Initialize our list
-movieList = []
 movieTypes = (".mkv", ".avi", ".mp4")
 # walk down the D:\\ drive (where movies are stored)
 for root, dirs, files in os.walk(r'D:', topdown=False):
@@ -70,10 +72,13 @@ if os.path.exists("movielist.txt"):
     data.sort()
     # creating an index that will follow each insert
     dex = 1
-    # insert each index + movie combination
+    # creating an index to determine row color
     color_dex = 0
+    # insert each index and video name
     for i in data:
+        # index the list around the character '@', which I used to split the data.
         idx = i.index("@")
+        # check the color dex with a modulus
         if color_dex % 2 == 0:
             table.insert(parent='', index=dex, values=(dex, i[:idx], i[idx:]), tags='even')
         else:
@@ -84,7 +89,7 @@ if os.path.exists("movielist.txt"):
 
     table.pack(fill='both', expand=True)
 
-
+    # create video opening code onclick
     def item_select(_):
         print(table.selection())
         for x in table.selection():
