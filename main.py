@@ -1,6 +1,7 @@
 import os
 from tkinter import *
 from tkinter import ttk
+from tkinter.font import Font
 from os import startfile
 
 # Check to see if movie list file exists
@@ -21,7 +22,7 @@ table = ttk.Treeview(screen, columns=('index', 'movies', 'filename'), show='head
 style = ttk.Style()
 upDownBar = ttk.Scrollbar(screen, orient="vertical", command=table.yview)
 table.configure(yscrollcommand=upDownBar.set)
-style.configure("Treeview", background="#EBEFE9")
+style.configure("Treeview", rowheight=24, background="#EBEFE9")
 style.configure("Treeview.Heading", font=("Comic Sans MS", 20))
 style.configure("Treeview.columns", font=("Comic Sans MS", 10))
 table.heading('index', text="#")
@@ -32,13 +33,13 @@ table.column('movies', width=200)
 style.map('Treeview', background=[('selected', 'green')])
 table.tag_configure("odd", background='#F2BC69')
 table.tag_configure("even", background='white')
-
+style.configure("Treeview.Rows", font=("Ariel", 10))
 # Creating the scrollbar, and putting it in the application
 upDownBar.pack(side="right", fill="y")
 
 
 def character_removal(text):
-    for ch in ["[", "]", ".", "-", "_", ".mkv", ".mp4", "AnimeRG ", "CBM ", f"\n"]:
+    for ch in ["[", "]", ".", "-", "_", " mkv", " mp4", "AnimeRG ", "CBM ", f"\n", " mp3", ""]:
         if ch in text:
             text1 = text.replace(ch, "")
             return str(text1)
@@ -79,10 +80,11 @@ if os.path.exists("movielist.txt"):
         # index the list around the character '@', which I used to split the data.
         idx = i.index("@")
         # check the color dex with a modulus
+        left = character_removal(i[:idx])
         if color_dex % 2 == 0:
-            table.insert(parent='', index=dex, values=(dex, i[:idx], i[idx:]), tags='even')
+            table.insert(parent='', index=dex, values=(dex, left, i[idx:]), tags='even')
         else:
-            table.insert(parent='', index=dex, values=(dex, i[:idx], i[idx:]), tags='odd')
+            table.insert(parent='', index=dex, values=(dex, left, i[idx:]), tags='odd')
         dex += 1
         color_dex += 1
         g.close()
