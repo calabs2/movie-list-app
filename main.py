@@ -45,7 +45,7 @@ def character_removal(text):
 
 
 # Initialize our list
-movieTypes = (".mkv", ".avi", ".mp4")
+movieTypes = (".mkv", ".avi", ".mp3", ".mp4", ".mov", ".webm")
 # walk down the D:\\ drive (where movies are stored)
 for root, dirs, files in os.walk(r'D:', topdown=False):
     path = root.split(os.sep)
