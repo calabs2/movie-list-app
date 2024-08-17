@@ -1,4 +1,8 @@
+import json
 import os
+import subprocess
+import av
+
 from tkinter import *
 from tkinter import ttk
 from tkinter.font import Font
@@ -7,8 +11,9 @@ from os import startfile
 # Check to see if movie list file exists
 if os.path.exists("movielist.txt"):
     os.remove("movielist.txt")
+    print("Movie List Exists!")
 else:
-    print("Making a new file!")
+    print("Movie List Is Being Created!")
     f = open("movielist.txt", "x")
     f.close()
 
@@ -17,7 +22,7 @@ screen = Tk()
 screen.title("Movie List: Massive Swag!")
 screen.geometry("1000x1200")
 
-# Create our table and stylings
+# Create our table and styling with a vertical scrollbar
 table = ttk.Treeview(screen, columns=('index', 'movies', 'filename'), show='headings')
 style = ttk.Style()
 upDownBar = ttk.Scrollbar(screen, orient="vertical", command=table.yview)
@@ -28,13 +33,12 @@ style.configure("Treeview.columns", font=("Comic Sans MS", 10))
 table.heading('index', text="#")
 table.heading('movies', text="Video Title:")
 table.heading('filename', text="Video Link: ")
-table.column("index", width=20)
+table.column("index", width=35, stretch=0)
 table.column('movies', width=200)
 style.map('Treeview', background=[('selected', 'green')])
 table.tag_configure("odd", background='#F2BC69')
 table.tag_configure("even", background='white')
 style.configure("Treeview.Rows", font=("Ariel", 10))
-# Creating the scrollbar, and putting it in the application
 upDownBar.pack(side="right", fill="y")
 
 
@@ -60,10 +64,10 @@ for root, dirs, files in os.walk(r'D:', topdown=False):
             swag2 = swag1.replace("]", "")
             swag3 = swag2.replace(".", " ")
             swag4 = swag3.replace("_", " ")
-            swag5 = swag4.replace(" mkv", "")
-            swag6 = swag5.replace("CBM ", "")
-            swag7 = swag6.replace("AnimeRG ", "")
-            swag8 = swag7.replace("\n", "")
+            swag5 = swag4.replace(" mkv", "").replace(" avi", "").replace(" mp3", "").replace("mp4", "").replace(" mov", "").replace(" webm", "")
+            swag6 = swag5.replace("CBM ", "").replace(" MX", "").replace(" YIFY", "").replace(" 6ch 2ch", "").replace("Rapta", "")
+            swag7 = swag6.replace("AnimeRG ", "").replace("H264", "").replace(" Shiv", "").replace("AAC", "").replace("[", "").replace("x264", "")
+            swag8 = swag7.replace("\n", "").replace("x265", "").replace("Shiv", "")
             f.write(swag8 + "@" + root + "\\" + file + "\n")
 
 # find the movie list text file, and read it.
@@ -98,7 +102,11 @@ if os.path.exists("movielist.txt"):
             z = table.item(x)['values']
             if len(z) == 3:
                 movie = z[2]
-                print("Now Playing: " + z[1])
+                container = av.open(movie.replace(f'\n', "").replace("@", ""))
+                video_info = container.streams.video[0]
+                codec = video_info.codec_context.codec.name
+                print("Now Playing: " + character_removal(z[1]))
+                print("Codec Information: " + codec)
                 startfile(movie.replace(f'\n', "").replace("@", ""))
 
 
