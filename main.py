@@ -20,7 +20,7 @@ else:
 # Initialize our window and table
 screen = Tk()
 screen.title("Movie List: Massive Swag!")
-screen.geometry("1000x1200")
+screen.geometry("1000x1500")
 
 # Create our table and styling with a vertical scrollbar
 table = ttk.Treeview(screen, columns=('index', 'movies', 'filename'), show='headings')
@@ -33,8 +33,8 @@ style.configure("Treeview.columns", font=("Comic Sans MS", 10))
 table.heading('index', text="#")
 table.heading('movies', text="Video Title:")
 table.heading('filename', text="Video Link: ")
-table.column("index", width=35, stretch=0)
-table.column('movies', width=200)
+table.column("index", width=35, stretch=False)
+table.column('movies', width=500)
 style.map('Treeview', background=[('selected', 'green')])
 table.tag_configure("odd", background='#F2BC69')
 table.tag_configure("even", background='white')
