@@ -1,12 +1,8 @@
-import json
 import os
-import subprocess
-import av
-
+from os import startfile
 from tkinter import *
 from tkinter import ttk
-from tkinter.font import Font
-from os import startfile
+import av
 
 # Check to see if movie list file exists
 if os.path.exists("movielist.txt"):
@@ -28,8 +24,8 @@ style = ttk.Style()
 upDownBar = ttk.Scrollbar(screen, orient="vertical", command=table.yview)
 table.configure(yscrollcommand=upDownBar.set)
 style.configure("Treeview", rowheight=24, background="#EBEFE9")
-style.configure("Treeview.Heading", font=("Comic Sans MS", 20))
-style.configure("Treeview.columns", font=("Comic Sans MS", 10))
+style.configure("Treeview.Heading", font=("PlaytimeWithHotToddies3D", 20))
+style.configure("Treeview.columns", font=("PlaytimeOblique", 10))
 table.heading('index', text="#")
 table.heading('movies', text="Video Title:")
 table.heading('filename', text="Video Link: ")
@@ -59,15 +55,22 @@ for root, dirs, files in os.walk(r'D:', topdown=False):
         f = open("movielist.txt", "a")
         # clean up the names of files that are movies, and write them to the list file
         if file.endswith(movieTypes):
+            nono = ["[", "]", ".", "_", "sujaidr", "brrip", "BluRay", "BrRip", "Ozlem", "1YTS", "YTS", "BOKUTOX", " SUJAIDR",
+                    "GAZ", " mkv", " avi", " mp3", " mp4", " mov", " webm", "CBM ", " MX", " YIFY", " 6ch 2ch", "Rapta", "AnimeRG ",
+                    "H264", " Shiv", "AAC", "x264", "\n", "x265", "RARBG", " WEBRip", "Sujaidr"]
             swag = file
-            swag1 = swag.replace("[", "")
-            swag2 = swag1.replace("]", "")
-            swag3 = swag2.replace(".", " ")
-            swag4 = swag3.replace("_", " ")
-            swag5 = swag4.replace(" mkv", "").replace(" avi", "").replace(" mp3", "").replace("mp4", "").replace(" mov", "").replace(" webm", "")
-            swag6 = swag5.replace("CBM ", "").replace(" MX", "").replace(" YIFY", "").replace(" 6ch 2ch", "").replace("Rapta", "")
-            swag7 = swag6.replace("AnimeRG ", "").replace("H264", "").replace(" Shiv", "").replace("AAC", "").replace("[", "").replace("x264", "")
-            swag8 = swag7.replace("\n", "").replace("x265", "").replace("Shiv", "")
+            swag1 = swag.replace("[", "").replace("sujaidr", "").replace("brrip", "").replace("BluRay", "")
+            swag2 = swag1.replace("]", "").replace("Ozlem", "").replace("1YTS", "").replace("YTS", "").replace("BOKUTOX", "")
+            swag3 = swag2.replace(".", " ").replace(" SUJAIDR", "").replace("GAZ", "").replace("BrRip", "")
+            swag4 = swag3.replace("_", " ").replace("BrRip", "").replace("1LAMA", "").replace(" 5 1 ", "").replace("AM", "")
+            swag5 = swag4.replace(" mkv", "").replace(" avi", "").replace(" mp3", "").replace("mp4", "").replace(" mov",
+                "").replace(" webm", "").replace("BRrip", "").replace("bluray", "").replace("Shiv", "")
+            swag6 = swag5.replace("CBM ", "").replace(" MX", "").replace(" YIFY", "").replace(" 6ch 2ch", "").replace(
+                "Rapta", "").replace(" ENG-ITA", "").replace("10bits", "").replace("AC3", "").replace("DD Will1869", "")
+            swag7 = swag6.replace("AnimeRG ", "").replace("H264", "").replace(" Shiv", "").replace("AAC", "").replace(
+                "[", "").replace("x264", "").replace("Rifftrax", "").replace("WEBDL", "").replace("DD", "")
+            swag8 = swag7.replace("\n", "").replace("x265", "").replace("RARBG", "").replace(" WEBRip ", "").replace(
+                "Sujaidr", "").replace("FGT", "").replace("HEVC", "").replace("Dual Audio", "").replace("BDRip", "")
             f.write(swag8 + "@" + root + "\\" + file + "\n")
 
 # find the movie list text file, and read it.
@@ -97,7 +100,6 @@ if os.path.exists("movielist.txt"):
 
     # create video opening code onclick
     def item_select(_):
-        print(table.selection())
         for x in table.selection():
             z = table.item(x)['values']
             if len(z) == 3:
