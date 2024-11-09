@@ -16,15 +16,13 @@ else:
 
 
 def login():
-    beginning = beginning_entry.get()
-    middle = middle_entry.get()
-    end = end_entry.get()
-    if beginning == "Inigo Montoya" and middle == "To avenge my father" and end == "The red of your blood":
-        messagebox.showinfo("Login successful")
+    if beginning_entry.get() == "Me!":
+        messagebox.showinfo("Login successful!", "You have permission!!!")
         root.withdraw()
         open_movie_window()
     else:
-        messagebox.showerror("Login Failed", "Those answers are incorrect! Die!")
+        messagebox.showerror("Login Failed", "That answer is incorrect! Die!")
+        exit()
 
 
 def open_movie_window():
@@ -53,26 +51,24 @@ def open_movie_window():
     updown_bar.pack(side="right", fill="y")
 
     def character_removal(text):
-        for ch in ["[", "]", ".", "-", "_", " mkv", " mp4", "AnimeRG ", "CBM ", f"\n", " mp3", ""]:
+        for ch in ["[", "]", ".", "-", "_", " mkv", " mp4", "AnimeRG ", "CBM ", f"\n", " mp3", "", "sujaidr", "brrip", "BluRay", "Ozlem", "1YTS", "YTS",
+                   "BOKUTOX", "SUJAIDR", "GAZ", "BrRip", "BrRip", "1LAMA", "5 1 ", "AM", "mkv", " avi", " mp3", "mp4", " mov",
+                   " webm", "BRrip", "bluray", "Shiv", "CBM ", " MX", " YIFY", " 6ch 2ch", "Rapta", " ENG-ITA", "10bits", "AC3", "DD Will1869",
+                   " AnimeRG ", "H264", " Shiv", "AAC", "x264", "Rifftrax", "WEBDL", "DD", "x265", "RARBG", " WEBRip", "Sujaidr", "FGT",
+                   "HEVC", "Dual Audio", "BDRip", " 1080p"]:
             if ch in text:
                 text1 = text.replace(ch, "")
                 return str(text1)
 
     # Initialize our list
     movieTypes = (".mkv", ".avi", ".mp3", ".mp4", ".mov", ".webm")
-    # walk down the D:\\ drive (where movies are stored)
-    for root, dirs, files in os.walk(r'D:', topdown=False):
-        path = root.split(os.sep)
+    # walk down the X:\\ drive (where movies are stored)
+    for root, dirs, files in os.walk(r'X:', topdown=False):
         for file in files:
             # open the movielist text file
             f = open("movielist.txt", "a")
             # clean up the names of files that are movies, and write them to the list file
             if file.endswith(movieTypes):
-                nono = ["[", "]", ".", "_", "sujaidr", "brrip", "BluRay", "BrRip", "Ozlem", "1YTS", "YTS", "BOKUTOX",
-                        " SUJAIDR",
-                        "GAZ", " mkv", " avi", " mp3", " mp4", " mov", " webm", "CBM ", " MX", " YIFY", " 6ch 2ch",
-                        "Rapta", "AnimeRG ",
-                        "H264", " Shiv", "AAC", "x264", "\n", "x265", "RARBG", " WEBRip", "Sujaidr"]
                 swag = file
                 swag1 = swag.replace("[", "").replace("sujaidr", "").replace("brrip", "").replace("BluRay", "")
                 swag2 = swag1.replace("]", "").replace("Ozlem", "").replace("1YTS", "").replace("YTS", "").replace(
@@ -89,10 +85,10 @@ def open_movie_window():
                                                                                                           "")
                 swag7 = swag6.replace("AnimeRG ", "").replace("H264", "").replace(" Shiv", "").replace("AAC",
                                                                                                        "").replace(
-                    "[", "").replace("x264", "").replace("Rifftrax", "").replace("WEBDL", "").replace("DD", "")
+                    "[", "").replace("x264", "").replace("Rifftrax", "").replace("WEBDL", "").replace("DD", "").replace("5 1", "")
                 swag8 = swag7.replace("\n", "").replace("x265", "").replace("RARBG", "").replace(" WEBRip ",
                                                                                                  "").replace(
-                    "Sujaidr", "").replace("FGT", "").replace("HEVC", "").replace("Dual Audio", "").replace("BDRip", "")
+                    "Sujaidr", "").replace("FGT", "").replace("HEVC", "").replace("Dual Audio", "").replace("BDRip", "").replace("1080p", "")
                 f.write(swag8 + "@" + root + "\\" + file + "\n")
 
     # find the movie list text file, and read it.
@@ -138,26 +134,17 @@ def open_movie_window():
 
 
 root = Tk()
-root.title("Answer my riddles three...")
+root.title("Do you have permission?")
 
 login_frame = Frame(root)
 login_frame.pack(pady=300)
 
-beginning_label = Label(login_frame, text="What is your name?")
+beginning_label = Label(login_frame, text="Who has access to this program?")
 beginning_label.grid(row=0, column=0, padx=10, pady=5)
 beginning_entry = Entry(login_frame)
 beginning_entry.grid(row=0, column=1, padx=10, pady=5)
-middle_label = Label(login_frame, text="What is your quest?")
-middle_label.grid(row=1, column=0, padx=10, pady=5)
-middle_entry = Entry(login_frame)
-middle_entry.grid(row=1, column=1)
-end_label = Label(login_frame, text="And... what is your favorite color?")
-end_label.grid(row=2, column=0, padx=10, pady=5)
-end_entry = Entry(login_frame)
-end_entry.grid(row=2, column=1)
 
 login_button = Button(login_frame, text="Login", command=login)
 login_button.grid(row=5, column=0)
-
 
 root.mainloop()
